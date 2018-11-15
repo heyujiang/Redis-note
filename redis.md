@@ -3,31 +3,73 @@ Redis £º
 string 
 
 	ÃüÁî£»
-			1.set  get   ÉèÖÃ»ñÈ¡   set key value    get key
-			2.expire   ÉèÖÃ±äÁ¿¹ıÆÚÊ±¼ä    expire key 5
-			3.setex    setex hyj 5 hhhh   ¸³Öµ±äÁ¿²¢¸ø±äÁ¿ÉèÖÃ5Ãë¹úÆóÊ±¼ä£¬µÈÍ¬ÓÚ set hyj hhhh       expire hyj 5   Á½¸öÃüÁî
-			4.setnx    Èç¹û±äÁ¿²»´æÔÚ¼´¿É´´½¨³É¹¦ ·ñÔòÊ§°Ü  setnx key value
-		ÓÃÓÚ¼ÆÊı  ĞèÒªvalueÊÇÊÇÕûÊı£»	
-            5.incr     ×ÔÔö1 £¬ĞèÒªvalueÊÇÕûÊı   set age 30   incr age   get age   //30    									
-			6.incrby   Ôö¼Ó¼¸¸ö    set age 30    incrby age 5   get age   //35       Ôö¼ÓÊıÖµ¿ÉÒÔÊÇ¸ºÊı£¬¼´Îª¼õ   µÈÍ¬ÓÚdecrby
-			7.decr     ×Ô¼õ1 £¬  set age 30   decr age          get age   //29
-			8.decrby   ¼õÉÙ¼¸¸ö  set age 30   decrby age 7      get age 5    //25    ¼õÉÙµÄÊıÁ¿¿ÉÒÔÊÇ¸ºÊı£¬¼´Îª¼Ó£¬µÈÍ¬ÓÚdecrby
+			1£»set key value [EX seconds] [PX milliseconds] [NX|XX]    ´´½¨key-value
+				key:¼ü
+				value£ºÖµ
+				EX seconds £º ÉèÖÃ¼¸Ãë¹ıÆÚ
+				PX millisseconds £º ÉèÖÃºÁÃë¹ıÆÚ
+				[NX|XX] £º NX ±íÊ¾Èç¹ûkey²»´æÔÚÔò´´½¨£¬´æÔÚÎŞ²Ù×÷£¨²»¸²¸Ç£©¡£XX ±íÊ¾ÎŞÂÛkeyÔÚ²»ÔÚ¶¼´´½¨£¨´´½¨»ò¸²¸Ç£©£¬Ä¬ÈÏÊÇXX
+					
+			2£ºget key 	
+			3£ºexpire key seconds      ¸økeyÉèÖÃ¹ıÆÚÊ±¼ä£¨Ãë£©
+			4£ºpexpire key milliseconds  ¸økeyÉèÖÃ¹ıÆÚÊ±¼ä£¨ºÁÃë£©
+			5£ºexpireat key timestamp    ¸økeyÉèÖÃ¹ıÆÚÊ±¼ä´Á£¨Ãë£©
+			5£ºpexpireat key milliseconds-timestamp    ¸økeyÉèÖÃ¹ıÆÚÊ±¼ä´Á£¨ºÁÃë£©
+			5£ºsetex key seconds value   ´´½¨key-value ²¢ÉèÖÃ¹ıÆÚÊ±¼ä£¨Ãë£©	
+				Ïàµ±ÓÚ set key value ex seconds
+				Ïàµ±ÓÚ set key value   ºÍ  expire key seconds  Á½¸öÃüÁî¡£
+				
+			6£»psetex key milliseconds value 	
 			
+			7£ºsetnx key value      ´´½¨key-value  ÅĞ¶Ïµ±Ç°ÊÇ·ñ´æÔÚkey ´æÔÚ¼´²»´´½¨ £¬²»´æÔÚ²Å´´½¨¡£
+				Ïàµ±ÓÚ  set key value nx
+			
+			
+			8£ºincr key   ¸økeyµÄvalueÖµ¼ÓÒ» £¨valueÖµĞèÒªÊÇÕûÊı£©
+				Ïàµ±Óë  incrby key 1
+				
+			9£ºincrby key increment   ¸økeyÖµ¼Ó increment
+				increment ¿ÉÒÔÊÇ¸ºÊı
+			
+			10£ºdecr key    ¸økeyÖµ¼õ1
+				Ïàµ±ÓÚdecrby key 1
+			
+			11£ºdecrby key decrement   ¸økeyÖµ¼õ decrement
+				decrement¿ÉÒÔÊÇ¸ºÊı
+			
+			12£ºstrlen key    ·µ»ØkeyËù´æ×Ö·û´®µÄ³¤¶È
+			
+			13£ºmset key value [key value .....]
+			14£ºmsetnx key value [key value.....]
+			14£ºmget key [key....]
+			15£ºincrbyfloat key increment
+			16£ºappend key value     ÏòkeyµÄËù´æ×Ö·û´®µÄÄ©Î²×·¼Ó×Ö·û´®  key²»´æÔÚÔò´´½¨
+			17£ºgetset key value    ÉèÖÃĞÂµÄkey´æµÄ×Ö·û´® ²¢·µ»Ø¾ÉµÄ×Ö·û´®  key²»´æÔÚÊ±²»³É¹¦ ·µ»Ønil
+			18£ºgetrange key start end   »ñÈ¡keyËù´æ×Ö·û´®µÄÒ»²¿·Ö 
+			19£ºsetrange key offset value  ½«keyËù´æµÄ×Ö·û´®´Ó±êoffset¿ªÊ¼Ìæ»»Îªvalue  valueÓĞ¶à³¤Ìæ»»¶à³¤¡£   key²»´æÔÚ»áĞÂ½¨
+			20£ºgetbit key offset    ¶Ô key Ëù´¢´æµÄ×Ö·û´®Öµ£¬»ñÈ¡Ö¸¶¨Æ«ÒÆÁ¿ÉÏµÄÎ»(bit)¡£
 			
 list    £º  listÊÇÁ´±í¶ø²»ÊÇÊı×é¡£ÕâÒâÎ¶×Å²åÈëºÍÉ¾³ı·Ç³£¿ì£¬Ê±¼ä¸´ÔÓ¶ÈÎªO(1),µ«ÊÇË÷Òı¶¨Î»ºÜÄÑ£¬Ê±¼ä¸´ÔÓ¶ÈÎªO(n). µ±ÁĞ±íµ¯³ö×îºóÒ»¸öÔªËØÖ®ºó£¬¸ÃÊı¾İ½á¹¹½«»á±»×Ô¶¯É¾³ı£¬ÄÚ´æ±»»ØÊÕ¡£
 	
-	books £º {'php'}
+	
 	ÃüÁî£º
-	        1.rpush  ´ÓÓÒ±ß²åÈëÁĞ±í   rpush books python java           //{'php','python','java'}
-			2.lpush  ´Ó×ó±ß²åÈëÁĞ±í   lpush books c c++ C#              //{'c#','c++','c','php','python','java'}
-			3.rpop   ´ÓÓÒ±ßµ¯³öÁĞ±í   rpop  books                       //java
-			4.lpop   ´Ó×ó±ßµ¯³öÁĞ±í   lpop  books                       //c#
-			5.llen   ÁĞ±í³¤¶È
-			6.lindex ĞèÒª¶ÔÁ´±í½øĞĞ±éÀú ĞÔÄÜËæ×ÅindexÔö´ó¶ø±ä²î    O(n)   lindex list index
-			7.ltrim  ºÍ×ÖÃæÒâË¼Ïà²î½Ï´ó£¬½Ğlretain£¨±£Áô£©±È½ÏºÏÊÊ£¬ÒòÎªltrim¸úÁ½¸ö²ÎÊıstart_index ºÍ end_index ¶¨ÒåÒ»¸öÇø¼ä£¬ÔÚÕâ¸öÇø¼äÄÚµÄÖµ£¬ltrimÒª±£Áô£¬Çø¼äÖ®ÍâµÄÍ³Í³¿³µô£¬¿ÉÒÔÓÃltrimÀ´ÊµÏÖÒ»¸ö¶¨³£µÄÁ´±í£¨ºÜÖØÒª£©   ltrim list start_inde end_index
-			8.lrange »ñÈ¡ËùÓĞÔªËØ O(n) 	  lrange list 0 -1
-						index ¿ÉÒÔÊÇ¸ºÊı  -1±íÊ¾×îºóÒ»¸ö  -2 ±íÊ¾µ¹ÊıµÚ¶ş¸ö
-			
+			1£ºlpush key value [value ...]  ½«Ò»¸öÖµ»ò¶à¸öÖµ²åµ½Á´±íÍ·²¿ £¬£»Á´±í²»´æÔÚÔòÏÈ´´½¨Á´±í
+			2£ºlpushx key value             ½«Ò»¸öÖµ²åÈëµ½ÒÑ´æÔÚµÄÁ´±íÍ·²¿¡£
+			3£ºrpush key value [value ...]  ½«Ò»¸öÖµ»ò¶à¸öÖµ²åµ½Á´±íÎ²²¿£¬ £»Á´±í²»´æÔÚÔòÏÈ´´½¨Á´±í
+			4£ºrpushx key value             ½«Ò»¸öÖµ²åÈëµ½ÒÑ´æÔÚµÄÁ´±íµÄÎ²²¿
+			5£ºlpop key                     ÒÆ³ö²¢»ñÈ¡Á´±íÍ·²¿µÚÒ»¸öÖµ
+			6£ºrpop key                     ÒÆ³ö²¢»ñÈ¡Á´±íÎ²²¿µÚÒ»¸öÖµ
+			7£ºrpoplpush score destination  ÒÆ³öÁĞ±íµÄ×îºóÒ»¸öÔªËØ£¬²¢½«¸ÃÔªËØÌí¼Óµ½ÁíÒ»¸öÁ´±íµÄÍ·²¿²¢·µ»Ø£» Èç¹ûÁíÒ»¸öÁ´±í²»´æÔÚÔòĞÂ½¨
+			8£ºblpop key [key ...] timeout  ÒÆ³ö²¢»ñÈ¡ÁĞ±íÍ·²¿Ò»¸ö»ò¶à¸öÔªËØ£¬Èç¹ûÁĞ±íÃ»ÓĞÔªËØ»áµÈ´ıÁĞ±íÖ±µ½³¬Ê±»òÁĞ±íÓĞÔªËØ
+			9£ºbrpop key [key ...] timeout  ÒÆ³ö²¢»ñÈ¡ÁĞ±íÎ²²¿Ò»¸ö»ò¶à¸öÔªËØ£¬Èç¹ûÁĞ±íÃ»ÓĞÔªËØ»áµÈ´ıÁĞ±íÖ±µ½³¬Ê±»òÁĞ±íÓĞÔªËØ
+			10£ºbrpoplpush score destination timeout ´ÓÁĞ±íÍ·²¿µ¯³öÒ»¸öÔª²åÈë¶¼ÁíÒ»¸öÁĞ±íÍ·²¿²¢»ñµÃ£¬Èç¹ûÁĞ±íÖĞÃ»ÓĞÔªËØ»áµÈ´ıÁĞ±íÖ±µ½³¬Ê±»òÁĞ±íÓĞÔªËØ
+			11£ºlindex key index            Í¨¹ıË÷Òı»ñÈ¡ÁĞ±íÖĞµÄÔªËØ
+			13£ºllen key                    »ñµÃÁĞ±íµÄ³¤¶È
+			14£ºlrange key start end        »ñµÃÁĞ±íÖ¸¶¨·¶Î§ÄÚµÄÔªËØ
+			15£ºlrem key count value        ´ÓÁĞ±íÖĞÒÆ³öcount¸öÔªËØ
+			16£ºlset ket index value        ¸ù¾İÏÂ±íÌæ»»ÁĞ±íÖĞµÄÔªËØ
+			17: ltrim key start end         ¶ÔÁĞ±í²Ã¼ô£¬Ö»±£ÁôÖ¸¶¨ÇøÓòÄÚµÄÔªËØ£¬ÆäÓàµÄÈ«²¿¼ô³ı
+	
 			
 		ÓÒ½ü×ó³ö£º ¶ÓÁĞ
 			> rpush books java php python
@@ -61,13 +103,43 @@ hash    :   ÎŞĞò×Öµä £¬Êı×é¼ÓÁ´±í¶şÎ¬½á¹¹  £»  RedisµÄ×ÖµäÖµÖ»ÄÜÊÇ×Ö·û´®¡£redisÊ
 																							   È»ºóÔÙºóĞøµÄ¶¨Ê±ÈÎÎñÖĞÒÔ¼°hash²Ù×÷Ö¸ÁîÖĞ£¬Ñ­Ğò½¥½øµÄ½«¾ÉhashµÄ
 																							   ÄÚÈİÒ»µãÒ»µãµÄÇ¨ÒÆµ½ĞÂµÄhash½á¹¹ÖĞ¡£µ±°áÇ¨Íê³Éºó£¬¾Í»áÓÃĞÂµÄhash
 																							   ½áºóÈ¡¶ø´úÖ®¡£
-            1.hset      hset books java ¡°think in java¡±			 hset books java "think in java" php "phpÊÇ×îºÃµÄÓïÑÔ"																				    
-			2.hget      
-			3.hgetall
-			4.hlen
-			5.hincrby 
+																							   
+    ÃüÁî£º																							   
+			 
+			1£ºhset key field value             ½«hash±íÖĞµÄ×Ö¶ÎfieldµÄÖµÉèÖÃÎªvalue
+			2£ºhmset key field value [field value ...]  ÅúÁ¿ÉèÖÃ
+			3£ºhsetnx key faild value           ÉèÖÃÇ°ÏÈÅĞ¶Ïhash±íÖĞÊÇ·ñ´æÔÚ×Ö¶Îfaild£¬Ö»ÓĞfaild²»´æÔÚÊ±²ÅÄÜÉèÖÃ
+			4£ºhget key field                   »ñÈ¡hash±íÖĞµÄ×Ö¶ÎfieldµÄÖµ
+			5£ºhmget key [key ...]              ÅúÁ¿»ñÈ¡
+			6£ºhgetall key                      »ñµÃhash±íÖĞµÄËùÓĞfaildÃû ºÍ  valueÖµ
+			7£ºhvals key                        »ñµÃhash±íÖĞËùÓĞ×Ö¶ÎµÄvalueÖµ
+			8£ºhkeys key                        »ñµÃhash±íÖĞËùÓĞµÄ×Ö¶ÎÃû
+			9£ºhdel key field [field ...]       É¾³ıhash±íÖĞµÄÒ»¸ö»òÕß¶à¸öfield
+			10£ºhexists key field               ÅĞ¶Ïhash±íÖĞÊÇ·ñ´æÔÚ×Ö¶Î
+			11£ºhlen key                        »ñµÃhash±íµÄ³¤¶È
+			12£ºhincrby key field increment     ½«hash±íµÄ×Ö¶ÎÖµ¼Ó increment  £¨ÕûÊı ¿ÉÎªĞ¡Êı£©
+			13£ºhincrbyfloat key field increment ½«hash±íµÄ×Ö¶ÎÖµ¼Ó increment £¨¸¡µãÊı ¿ÉÎªĞ¡Êı£©
 			
-set     £º  ¼òÖ±¶ÔÊÇÎŞĞòµÄÎ¨Ò»µÄ Ïàµ±ÓÚÒ»¸öÌØÊâµÄ×Öµä£¬×ÖµäÖĞËùÓĞµÄvalue¶¼ÊÇÒ»¸öÖµnull
+		
+			
+set     £º  ¼üÖµ¶ÔÊÇÎŞĞòµÄÎ¨Ò»µÄ Ïàµ±ÓÚÒ»¸öÌØÊâµÄ×Öµä£¬×ÖµäÖĞËùÓĞµÄvalue¶¼ÊÇÒ»¸öÖµnull
+			
+			
+	ÃüÁî:  
+			1£ºsadd key member [member ...]          ÏòÎŞĞò¼¯ºÏÖĞÌí¼ÓÒ»¸ö»òÕß¶à¸öÔªËØ
+			2£ºscard key                             »ñÈ¡ÎŞĞò¼¯ºÏÖĞÔªËØµÄÊıÁ¿
+			3£ºsdiff key [key ....]                  »ñµÃ¸øÓèµÄËùÓĞ¼¯ºÏµÄ²î¼¯
+			4£ºsdiffstore destination key [key ...]  »ñµÃ²î¼¯´æÔÚ¼¯ºÏdestinationÖĞ
+			5£ºsinter key [key ...]                  »ñµÃ¸ø³öµÄËùÓĞ¼¯ºÏµÄ½»¼¯
+			6£ºsinterstore destination key [key ...] »ñµÃ½»¼¯´æÔÚ¼¯ºÏdestinationÖĞ
+			7£ºsismember key member                  ÅĞ¶ÏÔªËØÊÇ·ñÔÚ¼¯ºÏÖĞ
+			8£ºsmembers key                          »ñµÃ¼¯ºÏËùÓĞµÄÔªËØ
+			9£ºsmove source destination member       ½«memberÔªËØ´Ósource¼¯ºÏÒÆµ½destination¼¯ºÏÖĞ
+			10£ºspop key member [count]              Ëæ»úÒÆ³ö²¢»ñµÃ¼¯ºÏÖĞcount¸öÔªËØ  countÄ¬ÈÏ1
+			11£ºsrandmember key [count]              ·µ»Ø¼¯ºÏÖĞÒ»¸ö»òÕß¶à¸öÔªËØ countÄ¬ÈÏ1
+			12£ºsrem key member [member ...]         ÒÆ³ö¼¯ºÏÖĞÒ»¸ö»ò¶à¸öÔªËØ
+			13£ºsunion key [key ...]                 ·µ»Ø¸ø¶¨¼¯ºÏµÄ²¢¼¯
+			14£ºsunionstore destination key [key ...] ·µ»Ø¸ø¶¨¼¯ºÏµÄ²¢¼¯²¢±£´æÔÚdestinationÖĞ
 			
 			
 			1.sadd     sadd books java php
