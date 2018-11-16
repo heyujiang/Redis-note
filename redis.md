@@ -140,15 +140,34 @@ set     ：  键值对是无序的唯一的 相当于一个特殊的字典，字典中所有的value都是一个
 			12：srem key member [member ...]         移出集合中一个或多个元素
 			13：sunion key [key ...]                 返回给定集合的并集
 			14：sunionstore destination key [key ...] 返回给定集合的并集并保存在destination中
+			15：sscan key cursor [MATCH pattern] [Count count]       增量式迭代
 			
 			
-			1.sadd     sadd books java php
-			2.smembers books   获得set中所有
-			3.sismember    判断某个value是否存在
-			4.scard  获取长度
-			5.spop key [count]  弹出
 			
-zset    ：  有序集合		   一方面它是一个set，保证了内部value的唯一性，另一方面他可以给每个value赋予一个score，代表这个value的排序权重。它的内部实现用的是一种跳跃列表的数据结构。	
+sirted set（zset）    ：  有序集合		   一方面它是一个set，保证了内部value的唯一性，另一方面他可以给每个value赋予一个score，代表这个value的排序权重。它的内部实现用的是一种跳跃列表的数据结构。	
+			
+	命令：
+			1：zadd key [incr] score member [score member ...]         向有序集合添加一个或多个成员，或者更新已存在成员的分数  incr是加分
+			2: zcard key                                               获得有序集合的成员个数  
+			3：zcount key min max                                      获得有序集合指定分数区间成员个数
+			4：zincrby key increment member                            给一成员分数增加 increment(可以是负数)
+			5：zinterstore destination numkeys key [key ...] [weights weight] [aggregate sum|min|max]    获取给出的有序集合的交集保存在新的有序集合destination中，给出的有序集合数量有keysnum指定
+			6：zlexcount key min max                                   计算有序集合中指定字典区间内成员数量                   
+			7：zrange key start stop [withscores]                      获得有序集合中区间内的成员 [withscores] 把分数也获得  （通过索引）
+			8：zrangebylex key min max [limit offset count]            根据成员值区间获得成员    （通过成员）
+			9: zrangebyscore key min max [limit offset count]          根据成员分数获得成员        （通过分数）
+			10：zrank key  member                                      获得集合指定成员
+			11：zrem key member [member ...]                           移除集合中一个或者多个成员
+			12：zremrangebylex key min max                             移出集合中给定字典区域的所有成员
+			13：zremrangebyscore key min max                           移出集合中给定分数区间的所有成员
+			14：zremrangebyrank key min max                            移出集合中给定排名区间的所有成员
+			15：zrevrange key start stop [withscores]                  倒序获得给定索引区间类的所有成员 （通过索引）
+			16：zrevrangebyscore key max min [withscores] [limit offset count]    倒序获得给定分数区间类的所有成员 （通过分数）
+			17: zrevrank key member                                    返回有序集合中指定成员的排名，有序集成员按分数值递减(从大到小)排序
+			18: zscore key member                                      返回给定成员的分数
+			19：zunionstore  destination numkeys key [key ...] [weights weight] [aggregate sum|min|max] 获取给出的有序集合的并集保存在新的有序集合destination中，给出的有序集合数量有keysnum指定
+			20：zscan key cursor [MATCH pattern] [Count count]       增量式迭代
+			
 			
 			
 			1.zadd key score value [score [value] ...]
