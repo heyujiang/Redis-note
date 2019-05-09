@@ -1,5 +1,5 @@
 git add .
-git commit -am "更新"
+git commit -am "update"
 git pull
 git push
 pause
