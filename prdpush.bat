@@ -1,5 +1,5 @@
 git add .
-git commit -m "update"
+git commit -am "update"
 git pull
 git push
 pause
